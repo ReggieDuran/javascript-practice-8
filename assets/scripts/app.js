@@ -9,7 +9,6 @@ class DOMHelper {
         const element = document.getElementById(elementId);
         const destinationElement = document.querySelector(newDestinationSelector);
         destinationElement.append(element);
-
         element.scrollIntoView({behavior: 'smooth'});
     }
 }
@@ -52,9 +51,13 @@ class Tooltip extends Component {
     create() {
         const tooltipElement = document.createElement('div');
         tooltipElement.className = 'card';
-        tooltipElement.textContent = this.text;
-        tooltipElement.addEventListener('click', this.closeTooltip);
-
+        // tooltipElement.textContent = this.text;
+        const tooltipTemplate = document.getElementById('tooltip');
+        const tooltipBody = document.importNode(tooltipTemplate.content, true);
+        console.log(tooltipBody)
+        
+        tooltipBody.querySelector('p').textContent = this.text;
+        tooltipElement.append(tooltipBody);
         const hostElPosLeft = this.hostElement.offsetLeft;
         const hostElPosTop = this.hostElement.offsetTop;
         const hostElHeight = this.hostElement.clientHeight;
@@ -68,6 +71,7 @@ class Tooltip extends Component {
         tooltipElement.style.top = y + 'px';
 
         console.log(this.hostElement.getBoundingClientRect());
+        tooltipElement.addEventListener('click', this.closeTooltip);
         this.element = tooltipElement;
     }b 
 }
